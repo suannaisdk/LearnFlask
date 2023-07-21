@@ -1,3 +1,5 @@
 # 忽略数据库文件
-/instance/
-/migrations/
+/instance/soccerSqlite3.db
+migrations
+.idea
+__pycache__
