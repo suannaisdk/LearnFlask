@@ -26,10 +26,17 @@ AdminUser_fields = {
 class AdminUserResource(Resource):
     # 查找所有用户
     @marshal_with(result_fields(AdminUser_fields))
-    def get(self):
+    def get(self, user_id=None):
         try:
-            adminUsers = AdminUser.query.all()
-            return {'data': adminUsers}
+            if user_id:
+                adminUsers = AdminUser.query.get(user_id)
+                if adminUsers:
+                    return {'data': adminUsers}
+                else:
+                    return {'status': 0, 'msg': '用户不存在'}
+            else:
+                adminUsers = AdminUser.query.all()
+                return {'data': adminUsers}
         except Exception as e:
             return {'status': 0, 'msg': str(e)}
 
@@ -40,11 +47,45 @@ class AdminUserResource(Resource):
             parser = reqparse.RequestParser()
             parser.add_argument('username', type=str, required=True, help='用户名不能为空')
             parser.add_argument('password', type=str, required=True, help='密码不能为空')
-            parser.add_argument('email', type=str, required=True, help='邮箱不能为空')
-            parser.add_argument('phone', type=str, required=True, help='手机号不能为空')
+            parser.add_argument('email', type=str, required=False, help='邮箱不能为空')
+            parser.add_argument('phone', type=str, required=False, help='手机号不能为空')
             args = parser.parse_args()
             admin_user = AdminUser(**args)
             db.session.add(admin_user)
+            db.session.commit()
+            return {'data': admin_user}
+        except Exception as e:
+            return {'status': 0, 'msg': str(e)}
+
+    # 删除用户
+    @marshal_with(result_fields(AdminUser_fields))
+    def delete(self):
+        try:
+            parser = reqparse.RequestParser()
+            parser.add_argument('id', type=int, required=True, help='id不能为空')
+            args = parser.parse_args()
+            admin_user = AdminUser.query.get(args['id'])
+            db.session.delete(admin_user)
+            db.session.commit()
+            return {'data': admin_user}
+        except Exception as e:
+            return {'status': 0, 'msg': str(e)}
+
+    # 修改用户，允许只修改一个字段
+    @marshal_with(result_fields(AdminUser_fields))
+    def put(self):
+        try:
+            parser = reqparse.RequestParser()   # 创建参数解析器
+            parser.add_argument('id', type=int, required=True, help='id不能为空')   # 添加参数
+            parser.add_argument('username', type=str, required=False, help='用户名不能为空')
+            parser.add_argument('password', type=str, required=False, help='密码不能为空')
+            parser.add_argument('email', type=str, required=False, help='邮箱不能为空')
+            parser.add_argument('phone', type=str, required=False, help='手机号不能为空')
+            args = parser.parse_args()  # 解析参数
+            admin_user = AdminUser.query.get(args['id'])    # 获取要修改的用户
+            for k, v in args.items():   # 遍历参数
+                if v:                   # 如果参数不为空
+                    setattr(admin_user, k, v)   # 修改用户属性
             db.session.commit()
             return {'data': admin_user}
         except Exception as e:
