@@ -1,6 +1,6 @@
-# apis.py api管理，创建所有api类视图对象
+# AdminUserResource.py api管理，创建所有api类视图对象
 from flask_restful import Resource, fields, marshal_with, reqparse
-from .models import *
+from App.Models.AdminUser import *
 
 
 # 返回字段格式化
@@ -11,12 +11,6 @@ def result_fields(data):
         'data': fields.List(fields.Nested(data))  # 返回数据
     }
     return ret_fields
-
-
-# 创建一个类视图HelloWorld
-class HelloResource(Resource):
-    def get(self):
-        return {"msg": "hello world"}
 
 
 # 字段格式化
