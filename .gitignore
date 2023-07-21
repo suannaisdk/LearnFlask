@@ -1,5 +1,5 @@
 # 忽略数据库文件
-/instance/soccerSqlite3.db
+instance
 migrations
 .idea
 __pycache__
