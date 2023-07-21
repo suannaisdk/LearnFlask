@@ -29,14 +29,14 @@ class AdminUserResource(Resource):
     def get(self, user_id=None):
         try:
             if user_id:
-                adminUsers = AdminUser.query.get(user_id)
-                if adminUsers:
-                    return {'data': adminUsers}
+                admin_users = AdminUser.query.get(user_id)
+                if admin_users:
+                    return {'data': admin_users}
                 else:
                     return {'status': 0, 'msg': '用户不存在'}
             else:
-                adminUsers = AdminUser.query.all()
-                return {'data': adminUsers}
+                admin_users = AdminUser.query.all()
+                return {'data': admin_users}
         except Exception as e:
             return {'status': 0, 'msg': str(e)}
 
