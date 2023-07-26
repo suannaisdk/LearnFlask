@@ -10,11 +10,8 @@ class AdminUser(db.Model):
     email = db.Column(db.String(20), nullable=False)  # 邮箱
     phone = db.Column(db.String(20), nullable=False)  # 手机号
 
-
     def __init__(self, username, password, email='', phone=''):
         self.username = username
         self.password = password
         self.email = email
         self.phone = phone
-
-

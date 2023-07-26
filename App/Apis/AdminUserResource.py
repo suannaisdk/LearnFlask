@@ -38,7 +38,7 @@ class AdminUserResource(Resource):
                 admin_users = AdminUser.query.all()
                 return {'data': admin_users}
         except Exception as e:
-            return {'status': 0, 'msg': str(e)}
+            return {'status': 0, 'msg': str(e)}, 500
 
     # 添加用户
     @marshal_with(result_fields(AdminUser_fields))
@@ -55,7 +55,9 @@ class AdminUserResource(Resource):
             db.session.commit()
             return {'data': admin_user}
         except Exception as e:
-            return {'status': 0, 'msg': str(e)}
+            # 回滚数据库
+            db.session.rollback()
+            return {'status': 0, 'msg': str(e)}, 500
 
     # 删除用户
     @marshal_with(result_fields(AdminUser_fields))
@@ -69,13 +71,15 @@ class AdminUserResource(Resource):
             db.session.commit()
             return {'data': admin_user}
         except Exception as e:
-            return {'status': 0, 'msg': str(e)}
+            # 回滚数据库
+            db.session.rollback()
+            return {'status': 0, 'msg': str(e)}, 500
 
     # 修改用户，允许只修改一个字段
     @marshal_with(result_fields(AdminUser_fields))
     def put(self):
         try:
-            parser = reqparse.RequestParser()   # 创建参数解析器
+            parser = reqparse.RequestParser()   # 创建参数解析器，因每个服务的要求的参数不同，所以每个服务都需要创建一个参数解析器
             parser.add_argument('id', type=int, required=True, help='id不能为空')   # 添加参数
             parser.add_argument('username', type=str, required=False, help='用户名不能为空')
             parser.add_argument('password', type=str, required=False, help='密码不能为空')
@@ -89,4 +93,6 @@ class AdminUserResource(Resource):
             db.session.commit()
             return {'data': admin_user}
         except Exception as e:
-            return {'status': 0, 'msg': str(e)}
+            # 回滚数据库
+            db.session.rollback()
+            return {'status': 0, 'msg': str(e)}, 500

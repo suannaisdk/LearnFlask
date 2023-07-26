@@ -5,6 +5,10 @@ class SoccerTeam(db.Model):
     __tablename__ = 'soccer_team'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)  # 主键
     team_name = db.Column(db.String(20), nullable=False)  # 球队名
-    content = db.Column(db.String(20), nullable=False)  # 球队简介
+    content = db.Column(db.String(20), nullable=True)  # 球队简介
     soccer_players = db.relationship('SoccerPlayer', backref='team', lazy=True)  # 球员外键
     is_delete = db.Column(db.Boolean, default=False)  # 是否删除
+
+    def __init__(self, team_name, content=''):
+        self.team_name = team_name
+        self.content = content
