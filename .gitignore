@@ -1,5 +1,5 @@
 # 忽略数据库文件
 instance
 migrations
-.idea
 __pycache__
+.idea
