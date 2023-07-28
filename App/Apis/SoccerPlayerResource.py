@@ -69,11 +69,14 @@ class SoccerPlayerResource(Resource):
             parser.add_argument('soccer_team_id', type=int, required=False, help='球队id设置异常')
             args = parser.parse_args()
             player = SoccerPlayer.query.get(args.get('id'))
-            for k, v in args.items():
-                if v:
-                    setattr(player, k, v)
-            db.session.commit()
-            return {'data': player}
+            if player:
+                for k, v in args.items():
+                    if v:
+                        setattr(player, k, v)
+                db.session.commit()
+                return {'data': player}
+            else:
+                return {'status': 0, 'msg': '球员不存在'}
         except Exception as e:
             # 回滚数据库
             db.session.rollback()
@@ -81,29 +84,32 @@ class SoccerPlayerResource(Resource):
 
     @marshal_with(result_fields(SoccerPlayer_fields))
     def delete(self):
+        try:
+            parser = reqparse.RequestParser()
+            parser.add_argument('id', type=int, required=True, help='id不能为空')
+            args = parser.parse_args()
+            print('删除！！！', args['id'])
+            player = SoccerPlayer.query.get(args['id'])
+            if player:
+                db.session.delete(player)
+                db.session.commit()
+                return {'data': player}
+            else:
+                return {'status': 0, 'msg': '球员不存在'}
+        except Exception as e:
+            # 回滚数据库
+            db.session.rollback()
+            return {'status': 0, 'msg': str(e)}, 500
+        # 将删除改为逻辑删除，将is_delete字段改为True
         # try:
         #     parser = reqparse.RequestParser()
         #     parser.add_argument('id', type=int, required=True, help='id不能为空')
         #     args = parser.parse_args()
-        #     print('删除！！！', args['id'])
         #     player = SoccerPlayer.query.get(args['id'])
-        #     db.session.delete(player)
+        #     player.is_delete = True
         #     db.session.commit()
         #     return {'data': player}
         # except Exception as e:
         #     # 回滚数据库
         #     db.session.rollback()
         #     return {'status': 0, 'msg': str(e)}, 500
-        # 将删除改为逻辑删除，将is_delete字段改为True
-        try:
-            parser = reqparse.RequestParser()
-            parser.add_argument('id', type=int, required=True, help='id不能为空')
-            args = parser.parse_args()
-            player = SoccerPlayer.query.get(args['id'])
-            player.is_delete = True
-            db.session.commit()
-            return {'data': player}
-        except Exception as e:
-            # 回滚数据库
-            db.session.rollback()
-            return {'status': 0, 'msg': str(e)}, 500
