@@ -37,7 +37,6 @@ class SoccerTeamResource(Resource):
             parser.add_argument('content', type=str, required=False, help='球队简介设置异常')
             args = parser.parse_args()
             team = SoccerTeam(**args)
-            print('=-=', team)
             db.session.add(team)
             db.session.commit()
             return {'data': team}

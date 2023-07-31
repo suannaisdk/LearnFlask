@@ -88,7 +88,6 @@ class SoccerPlayerResource(Resource):
             parser = reqparse.RequestParser()
             parser.add_argument('id', type=int, required=True, help='id不能为空')
             args = parser.parse_args()
-            print('删除！！！', args['id'])
             player = SoccerPlayer.query.get(args['id'])
             if player:
                 db.session.delete(player)
