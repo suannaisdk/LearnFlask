@@ -33,11 +33,16 @@ class UserResource(Resource):
             parser = reqparse.RequestParser()
             parser.add_argument("username", type=str, required=True, help="用户名不能为空")
             parser.add_argument("password", type=str, required=True, help="密码不能为空")
+            parser.add_argument("is_admin", type=bool, help="是否是管理员")
             parser.add_argument(
                 "soccer_player_id", type=int, required=False, help="球员外键"
             )
             args = parser.parse_args()
-            user = User(**args)
+            username = args["username"]
+            password = args["password"]
+            is_admin = args["is_admin"]
+            soccer_player_id = args["soccer_player_id"]
+            user = User(username, User.generate_hash(password), is_admin, soccer_player_id)
             db.session.add(user)
             db.session.commit()
             return {"data": user}
@@ -51,15 +56,15 @@ class UserResource(Resource):
         try:
             parser = reqparse.RequestParser()
             parser.add_argument("id", type=int, required=True, help="id不能为空")
-            parser.add_argument("username", type=str, required=True, help="用户名不能为空")
-            parser.add_argument("password", type=str, required=True, help="密码不能为空")
+            parser.add_argument("username", type=str, help="用户名错误")
+            parser.add_argument("password", type=str, help="密码错误")
             parser.add_argument(
                 "soccer_player_id", type=int, required=False, help="球员外键"
             )
             args = parser.parse_args()
             user = User.query.get(args["id"])
             user.username = args["username"]
-            user.password = args["password"]
+            user.password = User.generate_hash(args["password"])
             user.soccer_player_id = args["soccer_player_id"]
             db.session.commit()
             return {"data": user}
@@ -94,7 +99,7 @@ class UserLogin(Resource):
             # 通过username获取到用户名，然后再通过用户名获取到用户信息
             user = User.query.filter_by(username=parser.parse_args()["username"]).first()
             if user:        # 如果用户存在
-                if user.password == args["password"]:   # 如果密码正确
+                if User.verify_hash(user.password, args["password"]):   # 如果密码正确
                     return {"data": user}
                 else:
                     return {"status": 0, "msg": "用户名或密码错误"}
