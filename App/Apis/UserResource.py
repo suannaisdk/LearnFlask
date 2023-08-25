@@ -2,6 +2,7 @@ from flask_restful import Resource, fields, marshal_with, reqparse
 from App.Models.AdminUser import *
 from App.Apis import result_fields
 from App.Models.User import User
+from flask_jwt_extended import create_access_token, jwt_required
 
 # 字段格式化
 user_fields = {
@@ -10,8 +11,10 @@ user_fields = {
     # 'password': fields.String,  # 密码，不返回
     "is_admin": fields.Boolean,  # 是否是管理员
     "soccer_player_id": fields.Integer,  # 球员外键
+    "access_token": fields.String,  # token
 }
 class UserResource(Resource):
+    # method_decorators = [jwt_required]
     @marshal_with(result_fields(user_fields))
     def get(self, user_id=None):
         try:
@@ -99,8 +102,9 @@ class UserLogin(Resource):
             # 通过username获取到用户名，然后再通过用户名获取到用户信息
             user = User.query.filter_by(username=parser.parse_args()["username"]).first()
             if user:        # 如果用户存在
-                if User.verify_hash(user.password, args["password"]):   # 如果密码正确
-                    return {"data": user}
+                if User.verify_hash(args["password"], user.password ):   # 如果密码正确
+                    access_token = create_access_token(identity=user.username)
+                    return {"data": {"access_token": access_token, "user": user}}
                 else:
                     return {"status": 0, "msg": "用户名或密码错误"}
             else:

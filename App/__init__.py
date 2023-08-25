@@ -11,7 +11,7 @@ def create_app():
     db_uri = 'sqlite:///soccerSqlite3.db'
     app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # 禁止对象追踪修改。默认false
-
+    app.config['JWT_SECRET_KEY'] = 'secret'  # 设置jwt加密密钥
     # 初始化插件
     init_ext(app)
 
