@@ -12,9 +12,10 @@ class SoccerPlayer(db.Model):
     goals = db.Column(db.Integer, nullable=True)  # 进球数
     assist = db.Column(db.Integer, nullable=True)  # 助攻数
     soccer_team_id = db.Column(db.Integer, db.ForeignKey('soccer_team.id'))  # 球队外键，外键写在多的一方
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"))  # 球员外键
     is_delete = db.Column(db.Boolean, default=False)  # 是否删除
 
-    def __init__(self, name, avatar_img='', height='', weight='', goals=0, assist=0, soccer_team_id=0):
+    def __init__(self, name, avatar_img='', height='', weight='', goals=0, assist=0, soccer_team_id=0, user_id=0):
         self.name = name
         self.avatar_img = avatar_img
         self.height = height
@@ -22,3 +23,4 @@ class SoccerPlayer(db.Model):
         self.goals = goals
         self.assist = assist
         self.soccer_team_id = soccer_team_id
+        self.user_id = user_id

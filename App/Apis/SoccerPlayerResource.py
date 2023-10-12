@@ -12,7 +12,8 @@ SoccerPlayer_fields = {
     'weight': fields.Float,  # 体重
     'goals': fields.Integer,  # 进球数
     'assist': fields.Integer,  # 助攻数
-    'soccer_team_id': fields.String(attribute='team.id'),
+    'soccer_team_id': fields.Integer(attribute='team.id'),
+    'user_id': fields.Integer(attribute='user.id'),
     'soccer_team': fields.String(attribute='team.team_name'),
     # 球队外键。attribute指定外键的字段名，team是在SoccerTeam.py中定义的relationship，其中backref='team'，所以这里可以用team.team_name
 }
@@ -38,6 +39,7 @@ class SoccerPlayerResource(Resource):
     def post(self):
         try:
             parser = reqparse.RequestParser()
+            parser.add_argument('user_id', type=int, required=True, help='用户id设置异常')
             parser.add_argument('name', type=str, required=True, help='姓名不能为空')
             parser.add_argument('avatar_img', type=str, required=False, help='头像设置异常')
             parser.add_argument('height', type=float, required=False, help='身高设置异常')
@@ -60,6 +62,7 @@ class SoccerPlayerResource(Resource):
         try:
             parser = reqparse.RequestParser()
             parser.add_argument('id', type=int, required=True, help='id不能为空')
+            parser.add_argument('user_id', type=int, required=True, help='用户id设置异常')
             parser.add_argument('name', type=str, required=False, help='姓名不能为空')
             parser.add_argument('avatar_img', type=str, required=False, help='头像设置异常')
             parser.add_argument('height', type=float, required=False, help='身高设置异常')
