@@ -42,6 +42,7 @@ class UserResource(Resource):
             parser.add_argument("is_admin", type=bool, help="是否是管理员")
             args = parser.parse_args()
             user = User(**args)
+            user.password = User.generate_hash(args["password"])
             db.session.add(user)
             db.session.commit()
             return {"data": user}
