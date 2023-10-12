@@ -101,10 +101,11 @@ class UserLogin(Resource):
             args = parser.parse_args()
             # 通过username获取到用户名，然后再通过用户名获取到用户信息
             user = User.query.filter_by(username=parser.parse_args()["username"]).first()
+            print('==', user)
             if user:        # 如果用户存在
                 if User.verify_hash(args["password"], user.password ):   # 如果密码正确
                     access_token = create_access_token(identity=user.username)
-                    return {"data": {"access_token": access_token, "user": user}}
+                    return {"data": {"access_token": access_token, "username": user.username, "id": user.id, "soccer_player_id": user.soccer_player_id, "is_admin": user.is_admin}}
                 else:
                     return {"status": 0, "msg": "用户名或密码错误"}
             else:

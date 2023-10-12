@@ -3,7 +3,7 @@
   <component name="Black">
     <option name="executionMode" value="BINARY" />
     <option name="pathToExecutable" value="D:\Software\anaconda3\Scripts\black.exe" />
-    <option name="sdkUUID" value="5a31c995-183b-410d-8683-3479a81c4787" />
+    <option name="sdkName" value="Flask" />
   </component>
   <component name="ProjectRootManager" version="2" project-jdk-name="Flask" project-jdk-type="Python SDK" />
 </project>
