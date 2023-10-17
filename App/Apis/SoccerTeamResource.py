@@ -55,8 +55,11 @@ class SoccerTeamResource(Resource):
             args = parser.parse_args()
             team = SoccerTeam.query.get(args['id'])
             if team:
-                team.team_name = args['team_name']
-                team.content = args['content']
+                for key,value in args.items():
+                    if value:
+                        setattr(team, key, value)
+                # team.team_name = args['team_name']
+                # team.content = args['content']
                 db.session.commit()
                 return {'data': team}
             else:

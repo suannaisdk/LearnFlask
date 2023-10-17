@@ -55,13 +55,22 @@ class UserResource(Resource):
     def put(self):
         try:
             parser = reqparse.RequestParser()
+
             parser.add_argument("id", type=int, required=True, help="id不能为空")
             parser.add_argument("username", type=str, help="用户名错误")
             parser.add_argument("password", type=str, help="密码错误")
+            parser.add_argument("is_admin", type=bool, help="是否是管理员")
             args = parser.parse_args()
             user = User.query.get(args["id"])
-            user.username = args["username"]
-            user.password = User.generate_hash(args["password"])
+            for key,value in args.items():
+                if value:
+                    if key == 'password':
+                        user.password = User.generate_hash(args["password"])
+                    else:
+                        setattr(user, key, value)
+            # user.username = args["username"]
+            # user.password = User.generate_hash(args["password"])
+            # user.is_admin = args["is_admin"]
             db.session.commit()
             return {"data": user}
         except Exception as e:
