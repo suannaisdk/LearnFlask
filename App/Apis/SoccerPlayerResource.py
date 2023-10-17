@@ -7,6 +7,7 @@ from App.Models.SoccerPlayer import *
 SoccerPlayer_fields = {
     'id': fields.Integer,  # id
     'name': fields.String,  # 姓名
+    'birthday': fields.String,  # 生日
     'avatar_img': fields.String,  # 头像
     'height': fields.Float,  # 身高
     'weight': fields.Float,  # 体重
@@ -41,6 +42,7 @@ class SoccerPlayerResource(Resource):
             parser = reqparse.RequestParser()
             parser.add_argument('user_id', type=int, required=True, help='用户id设置异常')
             parser.add_argument('name', type=str, required=True, help='姓名不能为空')
+            parser.add_argument('birthday', type=str, help='生日不能为空')
             parser.add_argument('avatar_img', type=str, required=False, help='头像设置异常')
             parser.add_argument('height', type=float, required=False, help='身高设置异常')
             parser.add_argument('weight', type=float, required=False, help='体重设置异常')
@@ -64,6 +66,7 @@ class SoccerPlayerResource(Resource):
             parser.add_argument('id', type=int, required=True, help='id不能为空')
             parser.add_argument('user_id', type=int, required=True, help='用户id设置异常')
             parser.add_argument('name', type=str, required=False, help='姓名不能为空')
+            parser.add_argument('birthday', type=str, help='生日不能为空')
             parser.add_argument('avatar_img', type=str, required=False, help='头像设置异常')
             parser.add_argument('height', type=float, required=False, help='身高设置异常')
             parser.add_argument('weight', type=float, required=False, help='体重设置异常')
