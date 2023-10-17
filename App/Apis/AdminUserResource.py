@@ -1,5 +1,5 @@
 # AdminUserResource.py api管理，创建所有api类视图对象
-from flask_restful import Resource, fields, marshal_with, reqparse
+from flask_restful import Resource, fields, marshal_with, reqparse, request
 from App.Models.AdminUser import *
 from App.Apis import result_fields
 
@@ -16,8 +16,9 @@ AdminUser_fields = {
 class AdminUserResource(Resource):
     # 查找所有用户
     @marshal_with(result_fields(AdminUser_fields))
-    def get(self, user_id=None):
+    def get(self):
         try:
+            user_id = request.args.get('user_id')
             if user_id:
                 admin_users = AdminUser.query.get(user_id)
                 if admin_users:

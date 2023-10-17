@@ -5,7 +5,7 @@ class SoccerPlayer(db.Model):
     __tablename__ = 'soccer_player'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)  # 主键
     name = db.Column(db.String(20), nullable=False)  # 姓名
-    birthday = db.Column(db.DateTime, nullable=False)  # 生日
+    birthday = db.Column(db.String(20), nullable=True)  # 生日
     avatar_img = db.Column(db.Text(), nullable=True)  # 头像
     height = db.Column(db.Float, nullable=True)  # 身高
     weight = db.Column(db.Float, nullable=True)  # 体重

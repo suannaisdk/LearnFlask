@@ -1,4 +1,4 @@
-from flask_restful import Resource, fields, marshal_with, reqparse
+from flask_restful import Resource, fields, marshal_with, reqparse, request
 from App.Models.AdminUser import *
 from App.Apis import result_fields
 from App.Models.User import User
@@ -19,8 +19,9 @@ user_fields = {
 class UserResource(Resource):
     # method_decorators = [jwt_required]
     @marshal_with(result_fields(user_fields))
-    def get(self, user_id=None):
+    def get(self):
         try:
+            user_id = request.args.get('user_id')
             if user_id:
                 users = User.query.get(user_id)
                 if users:

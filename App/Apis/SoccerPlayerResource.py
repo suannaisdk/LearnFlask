@@ -1,5 +1,5 @@
 # SoccerPlayerResource.py api管理，创建所有api类视图对象
-from flask_restful import Resource, fields, marshal_with, reqparse
+from flask_restful import Resource, fields, marshal_with, reqparse, request
 from App.Apis import result_fields
 from App.Models.SoccerPlayer import *
 
@@ -24,6 +24,7 @@ class SoccerPlayerResource(Resource):
     @marshal_with(result_fields(SoccerPlayer_fields))
     def get(self, player_id=None):
         try:
+            player_id = request.args.get('player_id')
             if player_id:
                 players = SoccerPlayer.query.get(player_id)
                 if players:

@@ -1,6 +1,6 @@
 # SoccerMatchResource.py api管理，创建所有api类视图对象
 import datetime
-from flask_restful import Resource, fields, marshal_with, reqparse
+from flask_restful import Resource, fields, marshal_with, reqparse, request
 from App.Apis import result_fields
 from App.Apis.SoccerTeamResource import SoccerTeam_fields
 from App.Models.SoccerMatch import *
@@ -23,8 +23,9 @@ SoccerMatch_fields = {
 
 class SoccerMatchResource(Resource):
     @marshal_with(result_fields(SoccerMatch_fields))
-    def get(self, match_id=None):
+    def get(self):
         try:
+            match_id = request.args.get('match_id')
             if match_id:
                 match = SoccerMatch.query.get(match_id)
                 if match:

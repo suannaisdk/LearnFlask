@@ -1,4 +1,4 @@
-from flask_restful import Resource, fields, marshal_with, reqparse
+from flask_restful import Resource, fields, marshal_with, reqparse, request
 from App.Models.SoccerTeam import *
 from App.Apis import result_fields
 from App.Apis.SoccerPlayerResource import SoccerPlayer_fields
@@ -15,7 +15,8 @@ SoccerTeam_fields = {
 
 class SoccerTeamResource(Resource):
     @marshal_with(result_fields(SoccerTeam_fields))
-    def get(self, team_id=None):
+    def get(self):
+        team_id = request.args.get('team_id')
         try:
             if team_id:
                 teams = SoccerTeam.query.get(team_id)
