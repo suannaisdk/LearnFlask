@@ -69,9 +69,9 @@ class SoccerPlayerResource(Resource):
         try:
             parser = reqparse.RequestParser()
             parser.add_argument('id', type=int, required=True, help='id不能为空')
-            parser.add_argument('user_id', type=int, required=True, help='用户id设置异常')
+            parser.add_argument('user_id', type=int, required=False, help='用户id设置异常')
             parser.add_argument('name', type=str, required=False, help='姓名不能为空')
-            parser.add_argument('birthday', type=str, help='生日不能为空')
+            parser.add_argument('birthday', type=str, required=False, help='生日不能为空')
             parser.add_argument('avatar_img', type=str, required=False, help='头像设置异常')
             parser.add_argument('number', type=int, required=False, help='号码设置异常')
             parser.add_argument('height', type=float, required=False, help='身高设置异常')
