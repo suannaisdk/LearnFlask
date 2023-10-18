@@ -7,20 +7,23 @@ class SoccerPlayer(db.Model):
     name = db.Column(db.String(20), nullable=False)  # 姓名
     birthday = db.Column(db.String(20), nullable=True)  # 生日
     avatar_img = db.Column(db.Text(), nullable=True)  # 头像
-    height = db.Column(db.Float, nullable=True)  # 身高
+    number = db.Column(db.Integer, nullable=True)  # 号码
     weight = db.Column(db.Float, nullable=True)  # 体重
+    attendance = db.Column(db.Integer, nullable=True)  # 出场次数
     goals = db.Column(db.Integer, nullable=True)  # 进球数
     assist = db.Column(db.Integer, nullable=True)  # 助攻数
     soccer_team_id = db.Column(db.Integer, db.ForeignKey('soccer_team.id'))  # 球队外键，外键写在多的一方
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"))  # 球员外键
     is_delete = db.Column(db.Boolean, default=False)  # 是否删除
 
-    def __init__(self, name, birthday='',avatar_img='', height='', weight='', goals=0, assist=0, soccer_team_id=0, user_id=0):
+    def __init__(self, name, birthday='',avatar_img='', number=0 , height='', weight='', attendance=0, goals=0, assist=0, soccer_team_id=0, user_id=0):
         self.name = name
         self.birthday = birthday
         self.avatar_img = avatar_img
+        self.number = number
         self.height = height
         self.weight = weight
+        self.attendance = attendance
         self.goals = goals
         self.assist = assist
         self.soccer_team_id = soccer_team_id

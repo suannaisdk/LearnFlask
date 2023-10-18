@@ -9,8 +9,10 @@ SoccerPlayer_fields = {
     'name': fields.String,  # 姓名
     'birthday': fields.String,  # 生日
     'avatar_img': fields.String,  # 头像
+    'number': fields.Integer,  # 号码
     'height': fields.Float,  # 身高
     'weight': fields.Float,  # 体重
+    'attendance': fields.Integer,  # 出场次数
     'goals': fields.Integer,  # 进球数
     'assist': fields.Integer,  # 助攻数
     'soccer_team_id': fields.Integer(attribute='team.id'),
@@ -45,8 +47,10 @@ class SoccerPlayerResource(Resource):
             parser.add_argument('name', type=str, required=True, help='姓名不能为空')
             parser.add_argument('birthday', type=str, help='生日不能为空')
             parser.add_argument('avatar_img', type=str, required=False, help='头像设置异常')
+            parser.add_argument('number', type=int, required=False, help='号码设置异常')
             parser.add_argument('height', type=float, required=False, help='身高设置异常')
             parser.add_argument('weight', type=float, required=False, help='体重设置异常')
+            parser.add_argument('attendance', type=int, required=False, help='出场数设置异常')
             parser.add_argument('goals', type=int, required=False, help='进球数设置异常')
             parser.add_argument('assist', type=int, required=False, help='助攻数设置异常')
             parser.add_argument('soccer_team_id', type=int, required=False, help='球队id设置异常')
@@ -69,8 +73,10 @@ class SoccerPlayerResource(Resource):
             parser.add_argument('name', type=str, required=False, help='姓名不能为空')
             parser.add_argument('birthday', type=str, help='生日不能为空')
             parser.add_argument('avatar_img', type=str, required=False, help='头像设置异常')
+            parser.add_argument('number', type=int, required=False, help='号码设置异常')
             parser.add_argument('height', type=float, required=False, help='身高设置异常')
             parser.add_argument('weight', type=float, required=False, help='体重设置异常')
+            parser.add_argument('attendance', type=int, required=False, help='出场数设置异常')
             parser.add_argument('goals', type=int, required=False, help='进球数设置异常')
             parser.add_argument('assist', type=int, required=False, help='助攻数设置异常')
             parser.add_argument('soccer_team_id', type=int, required=False, help='球队id设置异常')
