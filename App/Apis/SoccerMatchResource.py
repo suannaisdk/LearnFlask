@@ -68,7 +68,7 @@ class SoccerMatchResource(Resource):
             )
             args = parser.parse_args()
             args["match_time"] = datetime.datetime.strptime(
-                args["match_time"], "%Y-%m-%d %H:%M:%S"
+                args["match_time"], "%Y-%m-%d %H:%M"
             )
             match = SoccerMatch(**args)
             db.session.add(match)
@@ -109,7 +109,7 @@ class SoccerMatchResource(Resource):
             args = parser.parse_args()
             if args.get("match_time"):
                 args["match_time"] = datetime.datetime.strptime(
-                    args["match_time"], "%Y-%m-%d %H:%M:%S"
+                    args["match_time"], "%Y-%m-%d %H:%M"
                 )
             match = SoccerMatch.query.get(args.get("id"))  # 获取要修改的比赛对象
             if match:
