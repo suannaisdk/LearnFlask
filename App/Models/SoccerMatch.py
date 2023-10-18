@@ -11,6 +11,7 @@ class SoccerMatch(db.Model):
     match_address = db.Column(db.String(20))  # 比赛地点
     match_content = db.Column(db.String(20))  # 比赛简介
     match_result = db.Column(db.String(20))  # 比赛结果
+    match_events = db.relationship('MatchEvent', backref='event', lazy=True)  # 事件外键
     home_goals = db.Column(db.Integer)  # 主队进球数
     guest_goals = db.Column(db.Integer)  # 客队进球数
     is_delete = db.Column(db.Boolean, default=False)  # 是否删除

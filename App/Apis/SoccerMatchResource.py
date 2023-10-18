@@ -3,7 +3,7 @@ import datetime
 from flask_restful import Resource, fields, marshal_with, reqparse, request
 from App.Apis import result_fields
 from App.Models.SoccerMatch import *
-
+from App.Apis.MatchEventResource import MatchEvent_fields
 
 # 字段格式化
 SoccerMatch_fields = {
@@ -16,6 +16,7 @@ SoccerMatch_fields = {
     "match_address": fields.String,  # 比赛地点
     "match_content": fields.String,  # 比赛简介
     "match_result": fields.String,  # 比赛结果
+    "match_events": fields.List(fields.Nested(MatchEvent_fields)),  # 查看比赛中所有事件
     "home_goals": fields.Integer,  # 主队进球数
     "guest_goals": fields.Integer,  # 客队进球数
     # 'is_delete': fields.Boolean  # 是否删除
