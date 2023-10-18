@@ -6,6 +6,8 @@ class SoccerTeam(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)  # 主键
     team_name = db.Column(db.String(20), nullable=False)  # 球队名
     content = db.Column(db.String(20), nullable=True)  # 球队简介
+    home_matches = db.relationship('SoccerMatch', backref='home_team', lazy=True, foreign_keys='SoccerMatch.home_team_id')  # 比赛外键
+    guest_matches = db.relationship('SoccerMatch', backref='guest_team', lazy=True, foreign_keys='SoccerMatch.guest_team_id')  # 比赛外键
     soccer_players = db.relationship('SoccerPlayer', backref='team', lazy=True)  # 球员外键
     is_delete = db.Column(db.Boolean, default=False)  # 是否删除
 

@@ -2,15 +2,14 @@
 import datetime
 from flask_restful import Resource, fields, marshal_with, reqparse, request
 from App.Apis import result_fields
-from App.Apis.SoccerTeamResource import SoccerTeam_fields
 from App.Models.SoccerMatch import *
 
 
 # 字段格式化
 SoccerMatch_fields = {
     "id": fields.Integer,  # id
-    "home_team_id": fields.Nested(SoccerTeam_fields),  # 主队外键
-    "guest_team_id": fields.Nested(SoccerTeam_fields),  # 客队外键
+    "home_team_id": fields.Integer(attribute='home_team.id'),  # 主队外键
+    "guest_team_id": fields.Integer(attribute='guest_team.id'),  # 客队外键
     "match_time": fields.DateTime(dt_format="iso8601"),  # 比赛时间
     "match_address": fields.String,  # 比赛地点
     "match_content": fields.String,  # 比赛简介

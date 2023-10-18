@@ -2,12 +2,14 @@ from flask_restful import Resource, fields, marshal_with, reqparse, request
 from App.Models.SoccerTeam import *
 from App.Apis import result_fields
 from App.Apis.SoccerPlayerResource import SoccerPlayer_fields
-
+from App.Apis.SoccerMatchResource import SoccerMatch_fields
 # 字段格式化
 SoccerTeam_fields = {
     'id': fields.Integer,  # id
     'team_name': fields.String,  # 球队名
     'content': fields.String,  # 球队简介
+    'home_matches': fields.List(fields.Nested(SoccerMatch_fields)),  # 比赛外键
+    'guest_matches': fields.List(fields.Nested(SoccerMatch_fields)),  # 比赛外键
     'soccer_players': fields.List(fields.Nested(SoccerPlayer_fields)),  # 球员外键
     'is_delete': fields.Boolean,  # 是否删除
 }
