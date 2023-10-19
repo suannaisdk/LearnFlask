@@ -108,7 +108,7 @@ class UserLogin(Resource):
             print('==', user)
             if user:  # 如果用户存在
                 if User.verify_hash(args["password"], user.password):  # 如果密码正确
-                    access_token = create_access_token(identity=user.username)
+                    access_token = create_access_token(identity=user.id)
                     return {"data": {"access_token": access_token, "username": user.username, "id": user.id,
                                      "soccer_player_id": user.soccer_player_id, "is_admin": user.is_admin}}
                 else:
