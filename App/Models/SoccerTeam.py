@@ -12,6 +12,8 @@ class SoccerTeam(db.Model):
     soccer_players = db.relationship('SoccerPlayer', backref='team', lazy=True)  # 球员外键
     is_delete = db.Column(db.Boolean, default=False)  # 是否删除
 
-    def __init__(self, team_name, content=''):
+    def __init__(self, team_name, content='', **kwargs):
         self.team_name = team_name
         self.content = content
+        for key, value in kwargs.items():
+            setattr(self, key, value)
