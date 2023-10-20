@@ -10,8 +10,10 @@ SoccerMatch_fields = {
     "id": fields.Integer,  # id
     "home_team_id": fields.Integer(attribute='home_team.id'),  # 主队外键
     "home_team_name": fields.String(attribute='home_team.team_name'),  # 主队外键
+    "home_team_logo": fields.String(attribute='home_team.logo_img_url'),  # 主队外键
     "guest_team_id": fields.Integer(attribute='guest_team.id'),  # 客队外键
     "guest_team_name": fields.String(attribute='guest_team.team_name'),  # 客队外键
+    "guest_team_logo": fields.String(attribute='guest_team.logo_img_url'),  # 客队外键
     "match_time": fields.DateTime(dt_format="iso8601"),  # 比赛时间
     "match_address": fields.String,  # 比赛地点
     "match_content": fields.String,  # 比赛简介
