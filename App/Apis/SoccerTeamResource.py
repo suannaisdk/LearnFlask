@@ -8,6 +8,7 @@ SoccerTeam_fields = {
     'id': fields.Integer,  # id
     'team_name': fields.String,  # 球队名
     'content': fields.String,  # 球队简介
+    'logo_img_url': fields.String,  # 球队简介
     'home_matches': fields.List(fields.Nested(SoccerMatch_fields)),  # 比赛外键
     'guest_matches': fields.List(fields.Nested(SoccerMatch_fields)),  # 比赛外键
     'soccer_players': fields.List(fields.Nested(SoccerPlayer_fields)),  # 球员外键
@@ -38,6 +39,7 @@ class SoccerTeamResource(Resource):
             parser = reqparse.RequestParser()
             parser.add_argument('team_name', type=str, required=True, help='球队名不能为空')
             parser.add_argument('content', type=str, required=False, help='球队简介设置异常')
+            parser.add_argument('logo_img_url', type=str, required=False, help='球队logo设置异常')
             args = parser.parse_args()
             team = SoccerTeam(**args)
             db.session.add(team)
@@ -55,6 +57,7 @@ class SoccerTeamResource(Resource):
             parser.add_argument('id', type=int, required=True, help='id不能为空')
             parser.add_argument('team_name', type=str, required=False, help='球队名不能为空')
             parser.add_argument('content', type=str, required=False, help='球队简介设置异常')
+            parser.add_argument('logo_img_url', type=str, required=False, help='球队logo设置异常')
             args = parser.parse_args()
             team = SoccerTeam.query.get(args['id'])
             if team:
