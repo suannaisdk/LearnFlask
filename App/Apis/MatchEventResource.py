@@ -8,6 +8,9 @@ MatchEvent_fields = {
     "id": fields.Integer,  # id
     "match_id": fields.Integer(attribute='event.id'),
     "event_time": fields.DateTime(dt_format="iso8601"),  # 事件时间
+    "event_team_id": fields.Integer(),  # 事件时间
+    "event_goal_player_id": fields.Integer(),  # 进球队员
+    "event_assist_player_id": fields.Integer(),  # 助攻队员
 }
 
 
@@ -34,6 +37,9 @@ class MatchEventResource(Resource):
             parser = reqparse.RequestParser()
             parser.add_argument('match_id', type=int, required=True, help="比赛id不能为空")
             parser.add_argument('event_time', type=str, required=True, help="事件时间设置异常")
+            parser.add_argument('event_team_id', type=str, required=True, help="队伍设置异常")
+            parser.add_argument('event_goal_player_id', type=str, required=True, help="进球球员设置异常")
+            parser.add_argument('event_assist_player_id', type=str, required=False, help="助攻球员设置异常")
             args = parser.parse_args()
             print(args["event_time"])
             args["event_time"] = datetime.datetime.strptime(
@@ -56,6 +62,9 @@ class MatchEventResource(Resource):
             parser.add_argument('id', type=int, required=True, help="事件id不能为空")
             parser.add_argument('match_id', type=int, required=False, help="比赛id不能为空")
             parser.add_argument('event_time', type=str, required=False, help="事件时间设置异常")
+            parser.add_argument('event_team_id', type=str, required=True, help="队伍设置异常")
+            parser.add_argument('event_goal_player_id', type=str, required=True, help="进球球员设置异常")
+            parser.add_argument('event_assist_player_id', type=str, required=False, help="助攻球员设置异常")
             args = parser.parse_args()
             if args.get("event_time"):
                 args["event_time"] = datetime.datetime.strptime(args["event_time"], "%Y-%m-%d %H:%M:%S")
