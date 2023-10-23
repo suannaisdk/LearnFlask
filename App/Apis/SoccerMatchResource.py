@@ -17,7 +17,7 @@ SoccerMatch_fields = {
     "match_time": fields.DateTime(dt_format="iso8601"),  # 比赛时间
     "match_address": fields.String,  # 比赛地点
     "match_content": fields.String,  # 比赛简介
-    "match_result": fields.String,  # 比赛结果
+    "match_status": fields.Boolean,  # 比赛状态，True为未开始or进行中，False为保存
     "match_events": fields.List(fields.Nested(MatchEvent_fields)),  # 查看比赛中所有事件
     "home_goals": fields.Integer,  # 主队进球数
     "guest_goals": fields.Integer,  # 客队进球数
@@ -60,7 +60,7 @@ class SoccerMatchResource(Resource):
                 "match_content", type=str, required=False, help="比赛简介设置异常"
             )
             parser.add_argument(
-                "match_result", type=str, required=False, help="比赛结果设置异常"
+                "match_status", type=bool, required=False, help="比赛状态设置异常"
             )
             parser.add_argument(
                 "home_goals", type=int, required=False, help="主队进球数设置异常"
@@ -100,7 +100,7 @@ class SoccerMatchResource(Resource):
                 "match_content", type=str, required=False, help="比赛简介设置异常"
             )
             parser.add_argument(
-                "match_result", type=str, required=False, help="比赛结果设置异常"
+                "match_status", type=bool, required=False, help="比赛状态设置异常"
             )
             parser.add_argument(
                 "home_goals", type=int, required=False, help="主队进球数设置异常"
@@ -114,8 +114,11 @@ class SoccerMatchResource(Resource):
                     args["match_time"], "%Y-%m-%d %H:%M"
                 )
             match = SoccerMatch.query.get(args.get("id"))  # 获取要修改的比赛对象
+            # print('test', args["match_status"])
             if match:
                 for k, v in args.items():
+                    if k == "match_status":
+                        setattr(match, k, v)
                     if v:
                         setattr(match, k, v)
                 db.session.add(match)
