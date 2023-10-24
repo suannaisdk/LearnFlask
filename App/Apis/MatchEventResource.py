@@ -2,6 +2,8 @@ import datetime
 from flask_restful import Resource, fields, marshal_with, reqparse, request
 from App.Apis import result_fields
 from App.Models.MatchEvent import *
+from App.Models.SoccerPlayer import SoccerPlayer
+from App.Models.SoccerMatch import SoccerMatch
 
 # 字段格式化
 MatchEvent_fields = {
@@ -37,16 +39,39 @@ class MatchEventResource(Resource):
             parser = reqparse.RequestParser()
             parser.add_argument('match_id', type=int, required=True, help="比赛id不能为空")
             parser.add_argument('event_time', type=str, required=True, help="事件时间设置异常")
-            parser.add_argument('event_team_id', type=str, required=True, help="队伍设置异常")
-            parser.add_argument('event_goal_player_id', type=str, required=True, help="进球球员设置异常")
-            parser.add_argument('event_assist_player_id', type=str, required=False, help="助攻球员设置异常")
+            parser.add_argument('event_team_id', type=int, required=True, help="队伍设置异常")
+            parser.add_argument('event_goal_player_id', type=int, required=False, help="进球球员设置异常")
+            parser.add_argument('event_assist_player_id', type=int, required=False, help="助攻球员设置异常")
             args = parser.parse_args()
-            print(args["event_time"])
             args["event_time"] = datetime.datetime.strptime(
                 args["event_time"], "%Y-%m-%d %H:%M:%S"
             )
-            print(args["event_time"])
+            print(args["event_time"], args.get('event_goal_player_id'))
             event = MatchEvent(**args)
+            # 修改soccer_player中的进球数
+            if args["event_goal_player_id"]:
+                goal_player = SoccerPlayer.query.get(args.get('event_goal_player_id'))
+                if goal_player:
+                    goal_player.goals += 1
+                    db.session.add(goal_player)
+
+            # 修改soccer_player中的助攻数量
+            if args["event_assist_player_id"]:
+                assist_player = SoccerPlayer.query.get(args.get('event_assist_player_id'))
+                if assist_player:
+                    assist_player.assist += 1
+                    db.session.add(assist_player)
+            # 修改队伍进球
+            if args['event_team_id']:
+                match = SoccerMatch.query.get(args.get('match_id'))
+                if match.home_team_id == args.get('event_team_id'):
+                    match.home_goals += 1
+                elif match.guest_team_id == args.get('event_team_id'):
+                    match.guest_goals += 1
+                else:
+                    print('队伍错误！')
+                db.session.add(match)
+
             db.session.add(event)
             db.session.commit()
             return {"data": event}
@@ -62,9 +87,9 @@ class MatchEventResource(Resource):
             parser.add_argument('id', type=int, required=True, help="事件id不能为空")
             parser.add_argument('match_id', type=int, required=False, help="比赛id不能为空")
             parser.add_argument('event_time', type=str, required=False, help="事件时间设置异常")
-            parser.add_argument('event_team_id', type=str, required=True, help="队伍设置异常")
-            parser.add_argument('event_goal_player_id', type=str, required=True, help="进球球员设置异常")
-            parser.add_argument('event_assist_player_id', type=str, required=False, help="助攻球员设置异常")
+            parser.add_argument('event_team_id', type=int, required=False, help="队伍设置异常")
+            parser.add_argument('event_goal_player_id', type=int, required=False, help="进球球员设置异常")
+            parser.add_argument('event_assist_player_id', type=int, required=False, help="助攻球员设置异常")
             args = parser.parse_args()
             if args.get("event_time"):
                 args["event_time"] = datetime.datetime.strptime(args["event_time"], "%Y-%m-%d %H:%M:%S")
@@ -73,6 +98,7 @@ class MatchEventResource(Resource):
                 for k, v in args.items():
                     if v:
                         setattr(event, k, v)
+
                 db.session.add(event)
                 db.session.commit()
                 return {"data": event}
