@@ -8,6 +8,7 @@ class SoccerPlayer(db.Model):
     birthday = db.Column(db.String(20), nullable=True)  # 生日
     avatar_img = db.Column(db.Text(), nullable=True)  # 头像
     number = db.Column(db.Integer, nullable=True)  # 号码
+    height = db.Column(db.Float, nullable=True)  # 体重
     weight = db.Column(db.Float, nullable=True)  # 体重
     attendance = db.Column(db.Integer, nullable=True)  # 出场次数
     goals = db.Column(db.Integer, nullable=True)  # 进球数
