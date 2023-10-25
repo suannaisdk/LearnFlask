@@ -10,7 +10,7 @@ class SoccerMatch(db.Model):
     match_time = db.Column(db.DateTime)  # 比赛时间
     match_address = db.Column(db.String(20))  # 比赛地点
     match_content = db.Column(db.String(20))  # 比赛简介
-    match_status = db.Column(db.Boolean)  # 比赛状态，布尔值，为True时状态开启，False时比赛结束，显示在球队赛程中
+    match_status = db.Column(db.Integer, default=0)  # 比赛状态，0未开始，1比赛开始，2比赛结束
     match_events = db.relationship('MatchEvent', backref='event', lazy=True)  # 事件外键
     home_goals = db.Column(db.Integer, default=0)  # 主队进球数
     guest_goals = db.Column(db.Integer, default=0)  # 客队进球数
