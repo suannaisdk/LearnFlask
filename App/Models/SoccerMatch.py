@@ -12,8 +12,8 @@ class SoccerMatch(db.Model):
     match_content = db.Column(db.String(20))  # 比赛简介
     match_status = db.Column(db.Boolean)  # 比赛状态，布尔值，为True时状态开启，False时比赛结束，显示在球队赛程中
     match_events = db.relationship('MatchEvent', backref='event', lazy=True)  # 事件外键
-    home_goals = db.Column(db.Integer)  # 主队进球数
-    guest_goals = db.Column(db.Integer)  # 客队进球数
+    home_goals = db.Column(db.Integer, default=0)  # 主队进球数
+    guest_goals = db.Column(db.Integer, default=0)  # 客队进球数
     is_delete = db.Column(db.Boolean, default=False)  # 是否删除
 
     def __init__(self, home_team_id, guest_team_id, **kwargs):
