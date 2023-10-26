@@ -14,6 +14,8 @@ class SoccerPlayer(db.Model):
     goals = db.Column(db.Integer, nullable=True)  # 进球数
     assist = db.Column(db.Integer, nullable=True)  # 助攻数
     soccer_team_id = db.Column(db.Integer, db.ForeignKey('soccer_team.id'))  # 球队外键，外键写在多的一方
+    goals_events = db.relationship('MatchEvent', backref="goal_player", lazy=True, foreign_keys='MatchEvent.event_goal_player_id')
+    assist_events = db.relationship('MatchEvent', backref="assist_player", lazy=True,  foreign_keys='MatchEvent.event_assist_player_id')
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"))  # 球员外键
     is_delete = db.Column(db.Boolean, default=False)  # 是否删除
 

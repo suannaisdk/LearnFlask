@@ -12,7 +12,9 @@ MatchEvent_fields = {
     "event_time": fields.DateTime(dt_format="iso8601"),  # 事件时间
     "event_team_id": fields.Integer(),  # 事件时间
     "event_goal_player_id": fields.Integer(),  # 进球队员
+    "event_goal_player_name": fields.String(attribute='goal_player.name'),  # 进球队员
     "event_assist_player_id": fields.Integer(),  # 助攻队员
+    "event_assist_player_name": fields.String(attribute='assist_player.name'),  # 助攻队员
 }
 
 
