@@ -17,8 +17,8 @@ SoccerPlayer_fields = {
     'goals': fields.Integer,  # 进球数
     'assist': fields.Integer,  # 助攻数
     'soccer_team_id': fields.Integer(attribute='team.id'),
-    'goals_events': fields.List(fields.Nested(MatchEvent_fields)),  # 用户的所有动作
-    'assist_events': fields.List(fields.Nested(MatchEvent_fields)),  # 用户的所有动作
+    # 'goals_events': fields.List(fields.Nested(MatchEvent_fields)),  # 用户的所有动作
+    # 'assist_events': fields.List(fields.Nested(MatchEvent_fields)),  # 用户的所有动作
     'user_id': fields.Integer(attribute='user.id'),
     'soccer_team': fields.String(attribute='team.team_name'),
     # 球队外键。attribute指定外键的字段名，team是在SoccerTeam.py中定义的relationship，其中backref='team'，所以这里可以用team.team_name
