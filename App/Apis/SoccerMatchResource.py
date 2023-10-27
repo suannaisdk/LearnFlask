@@ -46,28 +46,14 @@ class SoccerMatchResource(Resource):
     def post(self):
         try:
             parser = reqparse.RequestParser()
-            parser.add_argument(
-                "home_team_id", type=int, required=True, help="主队id不能为空"
-            )
-            parser.add_argument(
-                "guest_team_id", type=int, required=True, help="客队id不能为空"
-            )
+            parser.add_argument("home_team_id", type=int, required=True, help="主队id不能为空")
+            parser.add_argument("guest_team_id", type=int, required=True, help="客队id不能为空")
             parser.add_argument("match_time", type=str, required=False, help="比赛时间设置异常")
-            parser.add_argument(
-                "match_address", type=str, required=False, help="比赛地点设置异常"
-            )
-            parser.add_argument(
-                "match_content", type=str, required=False, help="比赛简介设置异常"
-            )
-            parser.add_argument(
-                "match_status", type=int, required=False, help="比赛状态设置异常"
-            )
-            parser.add_argument(
-                "home_goals", type=int, required=False, help="主队进球数设置异常"
-            )
-            parser.add_argument(
-                "guest_goals", type=int, required=False, help="客队进球数设置异常"
-            )
+            parser.add_argument("match_address", type=str, required=False, help="比赛地点设置异常")
+            parser.add_argument("match_content", type=str, required=False, help="比赛简介设置异常")
+            parser.add_argument("match_status", type=int, required=False, help="比赛状态设置异常")
+            parser.add_argument("home_goals", type=int, required=False, help="主队进球数设置异常")
+            parser.add_argument("guest_goals", type=int, required=False, help="客队进球数设置异常")
             args = parser.parse_args()
             args["match_time"] = datetime.datetime.strptime(
                 args["match_time"], "%Y-%m-%d %H:%M"
@@ -86,28 +72,14 @@ class SoccerMatchResource(Resource):
         try:
             parser = reqparse.RequestParser()
             parser.add_argument("id", type=int, required=True, help="id不能为空")
-            parser.add_argument(
-                "home_team_id", type=int, required=False, help="主队id不能为空"
-            )
-            parser.add_argument(
-                "guest_team_id", type=int, required=False, help="客队id不能为空"
-            )
+            parser.add_argument("home_team_id", type=int, required=False, help="主队id不能为空")
+            parser.add_argument("guest_team_id", type=int, required=False, help="客队id不能为空")
             parser.add_argument("match_time", type=str, required=False, help="比赛时间设置异常")
-            parser.add_argument(
-                "match_address", type=str, required=False, help="比赛地点设置异常"
-            )
-            parser.add_argument(
-                "match_content", type=str, required=False, help="比赛简介设置异常"
-            )
-            parser.add_argument(
-                "match_status", type=int, required=False, help="比赛状态设置异常"
-            )
-            parser.add_argument(
-                "home_goals", type=int, required=False, help="主队进球数设置异常"
-            )
-            parser.add_argument(
-                "guest_goals", type=int, required=False, help="客队进球数设置异常"
-            )
+            parser.add_argument("match_address", type=str, required=False, help="比赛地点设置异常")
+            parser.add_argument("match_content", type=str, required=False, help="比赛简介设置异常")
+            parser.add_argument("match_status", type=int, required=False, help="比赛状态设置异常")
+            parser.add_argument("home_goals", type=int, required=False, help="主队进球数设置异常")
+            parser.add_argument("guest_goals", type=int, required=False, help="客队进球数设置异常")
             args = parser.parse_args()
             if args.get("match_time"):
                 args["match_time"] = datetime.datetime.strptime(
